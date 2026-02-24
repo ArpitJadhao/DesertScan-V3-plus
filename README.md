@@ -1,49 +1,74 @@
-# Offroad Semantic Scene Segmentation - Duality AI Challenge
+# 🌵 DesertScan-V3+: Offroad Semantic Scene Segmentation
 
-This repository contains the source code, training configurations, and benchmarking scripts for the Offroad Autonomy Segmentation challenge. Our solution utilizes a DeepLabV3+ architecture with a high-capacity encoder to accurately segment desert environments for Unmanned Ground Vehicles (UGVs).
+**DesertScan-V3+** is a high-performance semantic segmentation solution designed for Unmanned Ground Vehicles (UGVs) navigating challenging desert environments. Built for the **Duality AI Challenge**, it prioritizes high-resolution context and class balance to ensure safe autonomous navigation.
 
-## 📊 Final Performance
-- **Validation mIoU**: 0.5640
-- **Best Classes**: Sky (0.9782), Trees (0.8350), Lush Bushes (0.6932)
-- **Top Improvement**: Upgraded from EfficientNet-B1 to B3, increasing resolution to 640px.
+---
+
+## 🚀 Performance Overview
+- **Validation mIoU**: `0.5640`
+- **Key Successes**: Near-perfect `Sky` (0.9782) and `Trees` (0.8350) detection.
+- **Improved Metrics**: Significant IoU gains in minority classes (`Flowers`, `Lush Bushes`) through automated weighting.
+
+---
+
+## 🧠 Technical Architecture
+Our solution leverages state-of-the-art architectures optimized for fine-grained feature extraction:
+- **Model**: [DeepLabV3+](https://arxiv.org/abs/1802.02611) (Atrous Spatial Pyramid Pooling).
+- **Backbone**: `EfficientNet-B3` (Pre-trained on ImageNet).
+- **Input Resolution**: **640x640px** (Ensures small obstacles like rocks and logs are detected).
+- **Training**: Mixed-Precision (FP16) using `torch.amp` for memory efficiency.
+
+---
+
+## 📁 Dataset & Classes
+The model segments the environment into **10 distinct classes**:
+1. `Trees` 2. `Lush Bushes` 3. `Dry Grass` 4. `Dry Bushes` 5. `Ground Clutter`
+6. `Flowers` 7. `Logs` 8. `Rocks` 9. `Landscape` 10. `Sky`
+
+- **Remapping**: Automated mapping from Falcon simulation IDs (100–10000) to training indices.
+- **Augmentation**: Random horizontal/vertical flips, resized crops, and color jitter to improve robustness.
+
+---
 
 ## 🛠️ Project Structure
-- `train.py`: Main training script with automated class weight computation.
-- `test.py`: Inference script for generating predictions and validation benchmarks.
-- `model.py`: Model architecture definitions (DeepLabV3+ with EfficientNet-B3).
-- `config.py`: Global hyperparameters and class mappings.
-- `dataset.py`: PyTorch dataset implementations for training and testing.
-- `utils.py`: Utility functions for remapping masks, computing IoU, and visualizing results.
-- `runs/`: Directory containing checkpoints, loss curves, and predictions.
+| File | Description |
+| :--- | :--- |
+| `train.py` | Training script with auto-class weighting and early stopping. |
+| `test.py` | Inference script for benchmarks and mask generation. |
+| `model.py` | DeepLabV3+ with EfficientNet-B3 implementation. |
+| `config.py` | Centralized hyperparameters, paths, and class mappings. |
+| `dataset.py` | PyTorch Dataset with advanced augmentations. |
+| `utils.py` | Metrics (mIoU), mask remapping, and visualization tools. |
 
-## 🚀 Getting Started
+---
 
-### 1. Requirements
-Ensure you have the `EDU` environment set up as per the hackathon instructions using the provided `setup_env.bat`.
+## 💻 Getting Started
 
-### 2. Training
-To train the model from scratch:
+### 1. Setup Environment
+Ensure you are using the `EDU` conda environment:
 ```powershell
 conda activate EDU
+```
+
+### 2. Training
+Start a new training run:
+```powershell
 python train.py
 ```
-Training logs and the best model checkpoint will be saved to the `runs/` directory.
+> [!NOTE]
+> Checkpoints and logs are saved automatically to the `runs/` directory.
 
-### 3. Inference & Benchmarking
-To generate predictions for the test images and view the validation report:
+### 3. Inference & Validation
+Generate predictions and an IoU benchmarking report:
 ```powershell
 python test.py
 ```
-- **Predictions**: Saved in `runs/predictions/`
-- **IoU Report**: Saved as `runs/iou_report.txt`
+The benchmark report will be saved at `runs/iou_report.txt`.
 
-## 🧠 Key Optimizations
-1. **Backbone Upgrade**: Transitioned to `efficientnet-b3` for superior feature extraction.
-2. **Resolution Scaling**: Increased input size to **640x640** pixels to capture finer details of small objects like rocks and logs.
-3. **Imbalance Handling**: Automated inverse-frequency class weighting to assist the model in learning minority classes.
-4. **Auto-Casting**: Used `torch.amp` for mixed-precision training to optimize memory usage on higher resolutions.
+---
 
-## 📁 Submission Requirements
-- **Model Weights**: Located at `runs/best_model.pth`
-- **Output Report**: See `runs/iou_report.txt`
-- **Predictions**: Color-mapped masks in `runs/predictions/`
+## 📊 Visualizations
+Predictions and training curves can be found in the `runs/` folder. Use `visualize.py` to inspect specific image-mask pairs.
+
+---
+**Challenge Submission - Hackathon 2026**
