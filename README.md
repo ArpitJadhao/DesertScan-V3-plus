@@ -70,5 +70,10 @@ The benchmark report will be saved at `runs/iou_report.txt`.
 ## 📊 Visualizations
 Predictions and training curves can be found in the `runs/` folder. Use `visualize.py` to inspect specific image-mask pairs.
 
+<img width="1024" height="365" alt="training_curves_final" src="https://github.com/user-attachments/assets/4f5ad679-6367-4730-8ded-170b4c1fb4a8" />
+<img width="1024" height="438" alt="detail_visual" src="https://github.com/user-attachments/assets/582200e5-7d64-4c5e-8797-86cb5660b53e" />
+<img width="1024" height="438" alt="success_visual" src="https://github.com/user-attachments/assets/39f04df2-37cc-40d8-bad8-fe8ef8f95efc" />
+<img width="1024" height="438" alt="failure_visual" src="https://github.com/user-attachments/assets/a6fb0c75-0bb5-45b6-91f7-374e00ee5b89" />
+
 ---
 **Challenge Submission - Hackathon 2026**
