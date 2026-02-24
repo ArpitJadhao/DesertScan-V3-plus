@@ -48,16 +48,16 @@ CLASS_COLORS = [
 
 # ── Training Hyperparameters ───────────────────────────────────────────
 IMAGE_SIZE   = 512          # Resize both rgb and seg to this square size
-BATCH_SIZE   = 8            # Reduce to 4 if GPU OOM
-NUM_EPOCHS   = 50
-LR           = 1e-4
-WEIGHT_DECAY = 1e-4
-PATIENCE     = 10           # Early stopping patience (epochs without val mIoU improvement)
+BATCH_SIZE   = 4            # Reduced for B3 backbone (MAnet is heavier)
+NUM_EPOCHS   = 100          # Increased for better convergence
+LR           = 2e-4         # Slightly higher LR for AdamW
+WEIGHT_DECAY = 1e-3         # Better regularization
+PATIENCE     = 15           # More room for complex model to converge
 
 # ── Model ──────────────────────────────────────────────────────────────
-ENCODER = "efficientnet-b1"
+ENCODER = "efficientnet-b3"
 ENCODER_WEIGHTS = "imagenet"
-MODEL_NAME   = "DeepLabV3Plus"
+MODEL_NAME   = "MAnet"
 
 # ── Misc ───────────────────────────────────────────────────────────────
 SEED         = 42

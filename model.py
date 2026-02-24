@@ -5,12 +5,16 @@ from config import NUM_CLASSES, ENCODER, ENCODER_WEIGHTS, MODEL_NAME
 
 def build_model() -> torch.nn.Module:
     """
-    Build DeepLabV3+ with MobileNetV3-Large backbone.
+    Build model based on configuration.
     Falls back gracefully with a clear error if smp is not installed.
     """
     try:
         import segmentation_models_pytorch as smp
-        model = smp.DeepLabV3Plus(
+        
+        # Get the model class from smp dynamically
+        model_class = getattr(smp, MODEL_NAME)
+        
+        model = model_class(
             encoder_name    = ENCODER,
             encoder_weights = ENCODER_WEIGHTS,
             in_channels     = 3,
@@ -18,7 +22,7 @@ def build_model() -> torch.nn.Module:
         )
     except Exception as e:
         raise RuntimeError(
-            f"Failed to build model: {e}\n"
+            f"Failed to build model ({MODEL_NAME}): {e}\n"
             "Ensure segmentation_models_pytorch is installed:\n"
             "  pip install segmentation-models-pytorch"
         )
